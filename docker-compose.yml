@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+
+  #PHP Service
+  app:
+    image: nhanlh94/php74:1.0
+    container_name: app
+    restart: always
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    working_dir: /var/www/{project}
+    volumes:
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+      - ./:/var/www/{project}
+    networks:
+      - app-network
+
+
+  # Nginx Service
+  webserver:
+    image: nginx:alpine
+    container_name: webserver
+    restart: always
+    tty: true
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d/
+      - ./:/var/www/{project}
+    networks:
+      - app-network
+
+  # Mysql
+  mysql:
+    image: mysql:8
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: laravel_dev
+    cap_add:
+      - SYS_NICE
+    ports:
+      - 3306:3306
+    volumes:
+      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - appdata:/var/lib/mysql
+      - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - app-network
+
+
+# Docker Networks
+networks:
+  app-network:
+    driver: bridge
+
+#Volumes
+volumes:
+  appdata:
+    driver: local
