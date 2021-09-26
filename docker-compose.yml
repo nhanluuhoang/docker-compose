@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
 
-  #PHP Service
+  ## PHP Service
   app:
     image: nhanlh94/php74:1.0
     container_name: app
@@ -19,7 +19,7 @@ services:
       - app-network
 
 
-  # Nginx Service
+  ## Nginx Service
   webserver:
     image: nginx:alpine
     container_name: webserver
@@ -34,7 +34,7 @@ services:
     networks:
       - app-network
 
-  # Mysql
+  ## Mysql
   mysql:
     image: mysql:8
     container_name: mysql
@@ -47,19 +47,20 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
-      - appdata:/var/lib/mysql
-      - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
+      - ./docker/mysql/data:/var/lib/mysql
+      - ./docker/mysql/init/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./docker/mysql/config/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./docker/mysql/logs:/var/log/mysql
     networks:
       - app-network
 
 
-# Docker Networks
+## Docker Networks
 networks:
   app-network:
     driver: bridge
 
-#Volumes
-volumes:
-  appdata:
-    driver: local
+##Volumes
+#volumes:
+#  appdata:
+#    driver: local

@@ -54,3 +54,12 @@
   ```
   ./docker/mysql/init.sql
   ```
+  
+- Error Mysql:
+    ```
+    mysqld: [Warning] World-writable config file '/etc/mysql/conf.d/my.cnf' is ignored.
+    ```
+    
+    ```
+    chmod 0444 docker/mysql/cofig/my.cnf
+    ```
