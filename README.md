@@ -61,5 +61,5 @@
     ```
     
     ```
-    chmod 0444 docker/mysql/cofig/my.cnf
+    chmod 0444 docker/mysql/config/my.cnf
     ```

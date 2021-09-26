@@ -48,7 +48,7 @@ services:
       - 3306:3306
     volumes:
       - ./docker/mysql/data:/var/lib/mysql
-      - ./docker/mysql/init/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./docker/mysql/initial-database/init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./docker/mysql/config/my.cnf:/etc/mysql/conf.d/my.cnf
       - ./docker/mysql/logs:/var/log/mysql
     networks:
